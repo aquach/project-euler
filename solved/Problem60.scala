@@ -27,12 +27,11 @@ object Problem60 {
         i
       }
     }.take(1300).toList
-    var candidates = primes.map(Set(_))
+    val startingCandidates = primes.map(Set(_))
 
-    for (i <- 0 until 4) {
-      println("Set " + i + "...")
-      candidates = (
-        for (candidateSet <- candidates;
+    val results = (0 until 4).foldLeft(startingCandidates)((candidates, _) =>
+      (
+        for (candidateSet <- candidates.par;
              prime <- primes
              if (candidateSet.forall(c => {
                 val a = (c.toString + prime.toString).toInt
@@ -43,8 +42,8 @@ object Problem60 {
         ) yield {
           candidateSet + prime
         }
-      ).distinct
-    }
-    println(candidates)
+      ).toList.distinct
+    )
+    println(results)
   }
 }
