@@ -59,7 +59,7 @@ object Problem93 {
   def main(args: Array[String]) {
     println(
       (0 to 9).combinations(4).map(perm => 
-        (perm, perm.permutations.flatMap(perm => search(perm.map(Value(_)).toList).map(_.head)).flatMap(_.toInt).filter(_ > 0).toSet.toList.sortWith(_ < _).zipWithIndex.takeWhile({ case (x, y) => x - 1 == y }).length)
+        (perm, perm.permutations.flatMap(perm => search(perm.map(Value(_)).toList).map(_.head)).flatMap(_.toInt).filter(_ > 0).toSet.toList.sorted.zipWithIndex.takeWhile({ case (x, y) => x - 1 == y }).length)
       ).maxBy(_._2)
     )
   }

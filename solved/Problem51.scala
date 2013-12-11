@@ -26,7 +26,7 @@ object Problem51 {
 
        if (familyOfPrimes.size == 8 && !seen.contains(familyOfPrimes) && familyOfPrimes.map(_.toString.length).toSet.size == 1) {
          seen = seen + familyOfPrimes
-         println(familyOfPrimes.toList.sort(_ < _))
+         println(familyOfPrimes.toList.sorted)
        }
     }
   }

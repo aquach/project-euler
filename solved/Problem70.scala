@@ -58,7 +58,7 @@ object Problem70 {
       )
       .map(n => (n, totient(n, bestGuess._2)))
       .filter({
-        case (n, Some(t_n)) => n.toString.toList.sort(_ < _) == t_n.toString.toList.sort(_ < _)
+        case (n, Some(t_n)) => n.toString.toList.sorted == t_n.toString.toList.sorted
         case (n, _) => false
       })
       .foreach(t => { bestGuess = (t._1, t._1 * 1.0 / t._2.get); println(bestGuess) })

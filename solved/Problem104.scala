@@ -18,13 +18,13 @@ object Problem104 {
     val MATCH = ('1' to '9').toList
     val MOD = BigInt("1000000000")
     val found = iter.find(i => {
-      if ((i % MOD).toString.toList.sort(_ < _) == MATCH) {
+      if ((i % MOD).toString.toList.sorted == MATCH) {
         println(k + " is a candidate")
         val str = i.toString
         if (str.length < 9) {
           false
         } else {
-          str.take(9).toList.sort(_ < _) == MATCH
+          str.take(9).toList.sorted == MATCH
         }
       } else {
         false

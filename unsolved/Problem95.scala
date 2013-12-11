@@ -21,7 +21,7 @@ object Problem95 {
         case (seen, None) => (seen, None)
       })
 
-      val chain = explorer.find(!_._2.isDefined).get._1.toList.sort(_ < _)
+      val chain = explorer.find(!_._2.isDefined).get._1.toList.sorted
       println(number, chain)
       val first = chain.head
       map ++ chain.map(i => (i, first)).toMap
