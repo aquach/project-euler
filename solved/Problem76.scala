@@ -1,6 +1,6 @@
 import scala.collection.mutable.Map
 
-object Project76 {
+object Problem76 {
   case class Memo[A, B](f: A => B) extends (A => B) {
     private val cache = scala.collection.mutable.Map.empty[A, B]
     def apply(x: A) = cache.getOrElseUpdate(x, f(x))

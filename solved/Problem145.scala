@@ -1,4 +1,4 @@
-object Project145 {
+object Problem145 {
   def main(args: Array[String]) {
     println(
       (0 to 1000 * 1000 * 1000).par
