@@ -4,8 +4,7 @@ object Problem120 {
 
   def main(args: Array[String]) {
     println((3 to 1000).map({ a =>
-      (0 to 100).foreach({ n => println(a, n, r(a, n)) }) 
-      12
+      (1 to a * 2).map({ n => r(a, n) }).max
     }).sum)
   }
 }
