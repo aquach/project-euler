@@ -12,7 +12,6 @@ object Problem199 {
     (s + c, s - c)
   }
 
-
   def sumRSq(curvatures: (Double, Double, Double), iter: Int): Double = {
     if (iter == ITERATIONS)
       return 0
