@@ -17,7 +17,7 @@ object Problem51 {
          config: Set[Int] <- (0 to num.toString.length).toSet.subsets) {
 
        val familyOfPrimes = (0 to 9).map({ digit =>
-         config.foldLeft(num)({ (n, wild_pos) =>
+         config.foldLeft(num)((n, wild_pos) => {
            val pos = if (wild_pos == 0) 1 else List.fill(wild_pos)(10).reduce(_ * _)
            val d = (n / pos) % 10
            n - d * pos + digit * pos
