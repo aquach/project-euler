@@ -32,9 +32,15 @@ object Problem108 {
       }
     })._1
 
-  def numFactorPairsOfNSquared(n: Int) = getPrimeFactorization(n).map(_._2).map(_ * 2 + 1).reduceOption(_ * _).getOrElse(1) / 2 + 1
+  def numFactorPairsOfNSquared(n: Int) =
+    getPrimeFactorization(n).map(_._2).map(_ * 2 + 1).reduceOption(_ * _).getOrElse(1) / 2 + 1
 
   def main(args: Array[String]) {
-    println(Stream.from(1).filter(n => !sieve.contains(n)).map(n => (n, numFactorPairsOfNSquared(n))).dropWhile(_._2 <= LIMIT).head._1)
+    println(
+      Iterator.from(1)
+      .filter(n => !sieve.contains(n))
+      .map(n => (n, numFactorPairsOfNSquared(n)))
+      .find(_._2 > LIMIT).get._1
+    )
   }
 }
