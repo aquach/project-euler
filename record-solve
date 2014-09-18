@@ -1,0 +1,1 @@
+mv Problem$1.scala solved && git add solved && git cm -nm "$1." && git pull --rebase && git push
