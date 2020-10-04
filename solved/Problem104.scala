@@ -1,8 +1,8 @@
 object Problem104 {
-  
+
   def main(args: Array[String]) {
     var k = 2
-    var iter = new Iterator[BigInt] {
+    val iter = new Iterator[BigInt] {
       var old1 = BigInt(1)
       var old2 = BigInt(1)
       def hasNext = true
