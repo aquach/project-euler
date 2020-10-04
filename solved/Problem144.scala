@@ -85,7 +85,7 @@ val bounceIterator = new Iterator[Vec] {
 
   def hasNext = {
     val n = nextBounce()
-    !(n.x >= -0.01 && n.x <= 0.01)
+    !(n.x >= -0.01 && n.x <= 0.01 && n.y > 0)
   }
 }
 
