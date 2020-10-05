@@ -15,18 +15,13 @@ val sieve = {
 
 println("Done.")
 
-case class Memo[A, B](f: A => B) extends (A => B) {
-  private val cache = scala.collection.mutable.Map.empty[A, B]
-  def apply(x: A) = cache.getOrElseUpdate(x, f(x))
-}
-
-def grid(q: Int, r: Int): BigInt = {
+def grid(q: Long, r: Long): Long = {
   val s = -q - r
-  val ring = BigInt((Math.abs(q) + Math.abs(r) + Math.abs(s)) / 2)
-  val ringBase: BigInt = if (ring == 0) {
+  val ring = (Math.abs(q) + Math.abs(r) + Math.abs(s)) / 2
+  val ringBase: Long = if (ring == 0) {
     1
   } else {
-    2 + BigInt(3) * ring * (ring - 1)
+    2 + 3L * ring * (ring - 1)
   }
 
   ringBase + (
@@ -46,21 +41,19 @@ def grid(q: Int, r: Int): BigInt = {
   )
 }
 
-val mgrid = Memo[(Int, Int), BigInt]({ case (q, r) => grid(q, r) })
-
 val result = Stream.from(0, -1).flatMap { r =>
   0.to(1).flatMap { q =>
     val pd = List(
-      mgrid(q, r - 1),
-      mgrid(q - 1, r),
-      mgrid(q - 1, r + 1),
-      mgrid(q, r + 1),
-      mgrid(q + 1, r),
-      mgrid(q + 1, r - 1)
-    ).map(n => (mgrid(q, r) - n).abs.toInt).count(sieve)
+      grid(q, r - 1),
+      grid(q - 1, r),
+      grid(q - 1, r + 1),
+      grid(q, r + 1),
+      grid(q + 1, r),
+      grid(q + 1, r - 1)
+    ).map(n => Math.abs(grid(q, r) - n).toInt).count(sieve)
 
     if (pd == 3)
-      Stream(mgrid(q, r))
+      Stream(grid(q, r))
     else
     Stream()
   }
