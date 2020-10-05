@@ -48,19 +48,22 @@ def grid(q: Int, r: Int): BigInt = {
 
 val mgrid = Memo[(Int, Int), BigInt]({ case (q, r) => grid(q, r) })
 
-val result = for (
-  q <- 0.to(1);
-  r <- (-100000).to(0);
-  pd = List(
-    mgrid(q, r - 1),
-    mgrid(q - 1, r),
-    mgrid(q - 1, r + 1),
-    mgrid(q, r + 1),
-    mgrid(q + 1, r),
-    mgrid(q + 1, r - 1)
-  ).map(n => (mgrid(q, r) - n).abs.toInt).count(sieve) if pd == 3
-) yield {
-  mgrid(q, r)
+val result = Stream.from(0, -1).flatMap { r =>
+  0.to(1).flatMap { q =>
+    val pd = List(
+      mgrid(q, r - 1),
+      mgrid(q - 1, r),
+      mgrid(q - 1, r + 1),
+      mgrid(q, r + 1),
+      mgrid(q + 1, r),
+      mgrid(q + 1, r - 1)
+    ).map(n => (mgrid(q, r) - n).abs.toInt).count(sieve)
+
+    if (pd == 3)
+      Stream(mgrid(q, r))
+    else
+    Stream()
+  }
 }
 
-println(result.sorted.apply(1999))
+println(result.take(2002)(1999))
