@@ -70,17 +70,40 @@ case class Rational(n: BigInt, d: BigInt) extends Ordered[Rational] {
    if(b == 0) a else gcd(b, a % b)
 }
 
-
 val one = Rational(1, 1)
 
-def d(n: Int): Set[Rational] = {
-  1.until(n).foldLeft(Set(one)) { (existingCombos, _) =>
-    existingCombos ++
-    existingCombos.map(c => c + one) ++ existingCombos.map(c => one / (one / c + one))
+def d(n: Int): Int = {
+  val rationalsByCaps = scala.collection.mutable.HashMap.empty[Int, Set[Rational]]
+  rationalsByCaps.put(1, Set(one))
+
+  2.to(n).foreach { totalNeeded =>
+    println(totalNeeded)
+
+    val adds = scala.collection.mutable.HashSet.empty[Rational]
+
+    1.to(totalNeeded / 2).foreach { a =>
+      val as = rationalsByCaps.get(a).getOrElse(Set())
+      val bs = rationalsByCaps.get(totalNeeded - a).getOrElse(Set())
+
+      as.foreach { av =>
+        bs.foreach { bv =>
+            adds += av + bv
+            adds += Rational(
+              av.numer * bv.numer,
+              av.numer * bv.denom + av.denom * bv.numer
+            )
+            // adds += one / (one / av + one / bv)
+        }
+      }
+    }
+
+    rationalsByCaps.put(totalNeeded, adds.toSet)
   }
+
+  rationalsByCaps.values.flatten.map(_ * 60).toList.toSet.size
 }
 
-println(d(9).map(_ * 60).toList.sorted.length)
+println(d(18))
 
 trait Node
 object Single extends Node {
@@ -110,9 +133,15 @@ def e(n: Int): Set[Node] = {
   }
 }
 
-println(e(3).map(cap).size)
-println(e(4).map(cap).size)
-println(e(5).map(cap).size)
-println(e(6).map(cap).size)
-println(e(7).map(cap).size)
-println(e(8).map(cap).size)
+// println(e(6).map(cap).map(_ * 60).toList.sorted)
+// println(e(6).map(cap).toList.sorted)
+// println(e(6).map(cap).map(_ * 60).toList.sorted.length)
+// println(e(6).map(cap).map(_ * 1).toList.sorted.length)
+// println(e(6).map(cap).toList.sorted.length)
+// println(e(6).map(cap).toSet.size)
+
+// println(e(3).map(cap).size)
+// println(e(4).map(cap).size)
+// println(e(5).map(cap).size)
+// println(e(5).map(cap).map(_ * 60).size)
+// println(e(5).map(cap).map(_ * 60).toList.sorted)
