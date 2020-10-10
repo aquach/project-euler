@@ -42,9 +42,10 @@ def totient(n: Int): Int = {
 
 val expeconstant = Math.exp(0.57721566)
 
-def minBoundOnTotient(n: Int): Int = {
+def maxBoundOnTotient(n: Int): Int = {
+  println(n)
   val loglogn = Math.log(Math.log(n))
-  (n * 1.0 / (expeconstant * loglogn + 3 / loglogn)).toInt
+  (n * 1.0 / (expeconstant * loglogn)).toInt + 1
 }
 
 
@@ -58,22 +59,23 @@ val mt = Memo(totient _)
 def chainLength(p: Int): Int = {
   // println(p)
   val a = Iterator.iterate(p)(a => mt(a)).takeWhile(_ != 1).length + 1
-  // val b = Iterator.iterate(p)(minBoundOnTotient).takeWhile(_ > 0).length + 1
+  // val b = Iterator.iterate(p)(maxBoundOnTotient).takeWhile(_ > 0).length + 1
   // println(p, a, b)
   a
 }
 
-def minChainLength(p: Int): Int = {
-  val a = Iterator.iterate(p)(minBoundOnTotient).takeWhile(_ > 0).length
+def maxChainLength(p: Int): Int = {
+  val a = Iterator.iterate(p)(maxBoundOnTotient).takeWhile(_ > 6).length
   println(p, a)
   a
 }
 
 val CHAIN_LENGTH = 25
 
-val bigEnoughPrimes = primesList.reverse.takeWhile(p => minChainLength(p) >= CHAIN_LENGTH)
-println(s"Big enough primes: ${bigEnoughPrimes.length}")
+// val bigEnoughPrimes = primesList.reverse.takeWhile(p => maxChainLength(p) >= CHAIN_LENGTH)
+// println(s"Big enough primes: ${bigEnoughPrimes.length}")
 
-println(bigEnoughPrimes.filter(p => chainLength(p) == CHAIN_LENGTH).sum)
+// println(bigEnoughPrimes.filter(p => chainLength(p) == CHAIN_LENGTH).sum)
 
-println(minChainLength(39999983))
+println(maxChainLength(39999983))
+println(totient(4252))
