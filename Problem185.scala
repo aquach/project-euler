@@ -59,24 +59,27 @@ def solve(guesses: List[Guess], ruledOutBits: scala.collection.BitSet): Option[S
     val ds = g.digits
 
     ds.zipWithIndex.combinations(g.numCorrect).toIterator.flatMap { choices =>
-      if (guesses.length >= 14) {
+      if (guesses.length >= 15) {
         println(s"${"  " * (22 - guesses.length)} $g $choices")
       }
 
-      val nonChoiceIndices = 0.until(LENGTH).toSet -- choices.map(_._2).toSet
-      val nonChoiceRuleoutBits = scala.collection.BitSet(nonChoiceIndices.map(i => p2b(i, ds(i))).toSeq: _*)
+      val bits = scala.collection.mutable.BitSet.fromBitMask(ruledOutBits.toBitMask)
 
-      val choiceRuleoutBits =
-        scala.collection.BitSet(
-          choices.flatMap { case (digit, p) => 0.to(9).filter(d => d != digit).map(d => p2b(p, d)) }.toSeq: _*
-        )
+      val chosenIndices = choices.map(_._2)
 
-      val newRuledOutBits = ruledOutBits ++ nonChoiceRuleoutBits ++ choiceRuleoutBits
+      0.until(LENGTH).foreach { i =>
+        if (!chosenIndices.contains(i))
+          bits += p2b(i, ds(i))
+      }
 
-      // println(g, ruledOutBits, newRuledOutBits)
+      choices.foreach { case (digit, p) =>
+        0.to(9).filter(d => d != digit).foreach { d =>
+          bits += p2b(p, d)
+        }
+      }
 
-      if (0.until(LENGTH).forall(p => isValid(newRuledOutBits, p))) {
-        solve(gs, newRuledOutBits)
+      if (0.until(LENGTH).forall(p => isValid(bits, p))) {
+        solve(gs, bits)
       } else {
         None
       }
