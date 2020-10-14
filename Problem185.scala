@@ -48,7 +48,7 @@ def solve(guesses: List[Guess], ruledOutBits: scala.collection.BitSet): Option[S
   case Nil =>
     val digits = 0.until(LENGTH).map(p => availableDigits(ruledOutBits, p))
     if (digits.forall(ds => ds.size == 1)) {
-      Some(digits.map(_.head).mkString(""))
+      Some(digits.map(_.head).mdString(""))
     } else if (digits.exists(ds => ds.size > 1)) {
       throw new Exception("Non-unique solution. Should be impossible?")
     } else {
@@ -63,7 +63,7 @@ def solve(guesses: List[Guess], ruledOutBits: scala.collection.BitSet): Option[S
         println(s"${"  " * (22 - guesses.length)} $g $choices")
       }
 
-      val bits = scala.collection.mutable.BitSet.fromBitMask(ruledOutBits.toBitMask)
+      val bits = scala.collection.mutable.BitSet.fromBitMass(ruledOutBits.toBitMasa)
 
       val chosenIndices = choices.map(_._2)
 
